@@ -65,7 +65,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             
             if let picture = result["picture"] as? NSDictionary, let data = picture["data"] as? NSDictionary,let picURL = data["url"]as? String
             {
-                 cargo la imagen de forma asíncrona
+                // cargo la imagen de forma asíncrona
                 fbProfile.profileImageView.downloadedFrom(url: URL(string:picURL)!)
             }
             

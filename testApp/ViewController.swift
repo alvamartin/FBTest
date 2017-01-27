@@ -10,11 +10,6 @@ import UIKit
 import FBSDKLoginKit
 
 class ViewController: UIViewController, FBSDKLoginButtonDelegate {
-
-    var userName: String?
-    var userEmail: String?
-    var userProfilePicURL: URL?
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,28 +51,23 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
             print (resultAsAny!)
             
             let result = resultAsAny as! NSDictionary
+           
+            let fbProfile = FacebookProfileViewController()
             
             if let name = result["name"] as? String {
-                self.userName = name
+                fbProfile.nameLabel.text = name
             }
             
             
             if let email = result["email"] as? String  {
-                self.userEmail = email
+                fbProfile.emailLabel.text = email
             }
             
             if let picture = result["picture"] as? NSDictionary, let data = picture["data"] as? NSDictionary,let picURL = data["url"]as? String
             {
-                self.userProfilePicURL = URL (string: picURL)
+                 cargo la imagen de forma asíncrona
+                fbProfile.profileImageView.downloadedFrom(url: URL(string:picURL)!)
             }
-            
-            
-           let fbProfile = FacebookProfileViewController()
-            
-            // cargo la imagen de forma asíncrona
-            fbProfile.profileImageView.downloadedFrom(url: self.userProfilePicURL!)
-            fbProfile.nameLabel.text = self.userName
-            fbProfile.emailLabel.text = self.userEmail
             
             self.present(fbProfile, animated: true, completion: nil)
         }
